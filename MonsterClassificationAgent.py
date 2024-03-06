@@ -4,6 +4,23 @@ class MonsterClassificationAgent:
         pass
 
     def solve(self, samples, new_monster):
+
+
+        negative_samples = {
+            "size": [],
+            "color": [],
+            "covering": [],
+            "foot-type": [],
+            "leg-count": [],
+            "arm-count": [],
+            "eye-count": [],
+            "horn-count": [],
+            "lays-eggs": [],
+            "has-wings": [],
+            "has-gills": [],
+            "has-tail": []
+        }
+
         positive_samples = {
             "size": [],
             "color": [],
@@ -16,25 +33,23 @@ class MonsterClassificationAgent:
             "lays-eggs": [],
             "has-wings": [],
             "has-gills": [],
-            "has-tail": [],
+            "has-tail": []
         }
 
-        for i in samples:
-            if i[1] is True:
-                for key, value in i[0].items():
-                    if key == 'has_gills':
-                        key = 'has-gills'
-                    this_list = positive_samples.get(key)
-                    if value not in this_list:
-                        this_list.append(value)
-
+        #monster fict, is positive example
+        for mon_dict, pos in samples:
+            if pos is True:
+                #import pdb; pdb.set_trace()
+                for key, value in mon_dict.items():
+                    curr_list = positive_samples.get(key)
+                    if value not in curr_list:
+                        #this list?
+                        positive_samples[key].append(value)
+        print(positive_samples)
         counter = 0
         for key in new_monster:
-            if key == 'has_gills':
-                key = 'has-gills'
             if new_monster.get(key) in positive_samples.get(key):
                 counter = counter + 1
-
         if counter >= 9:
             return True
         else:
